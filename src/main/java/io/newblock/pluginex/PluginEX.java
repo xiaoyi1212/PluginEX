@@ -26,6 +26,10 @@ public final class PluginEX extends JavaPlugin {
         EXCommandHandler handler = new EXCommandHandler(this);
         getCommand("pluginex").setExecutor(handler);
         getCommand("pluginex").setTabCompleter(handler);
+        if(true){
+            int a =1;
+        }
+        int a = 1;
     }
 
     @Override
