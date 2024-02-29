@@ -1,8 +1,7 @@
 name: PluginEX
-version: 'v0.0.1'
+version: 'v0.0.2'
 authors: [ XIAOYI12 ]
 main: io.newblock.pluginex.PluginEX
-api-version: '1.16'
 commands:
   pluginex:
     description: Plugin manager command.
@@ -18,4 +17,7 @@ permissions:
     default: op
   pluginex.admin.update:
     description: Update chat message.
+    default: op
+  pluginex.admin.gui:
+    description: Show gui permission.
     default: op

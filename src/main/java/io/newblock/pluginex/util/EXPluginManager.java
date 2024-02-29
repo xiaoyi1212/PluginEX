@@ -14,14 +14,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLClassLoader;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EXPluginManager {
+
+    private static Map<ClassLoader, Plugin> pluginMap = new HashMap();
 
     public static Plugin getPlugin(String name) {
         Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
@@ -75,6 +74,10 @@ public class EXPluginManager {
             Bukkit.getPluginManager().enablePlugin(target);
             sender.sendMessage(ChatColor.GREEN + Util.format("plugin.load"));
         }
+    }
+
+    public static Collection<Plugin> getAllPlugins(){
+        return Arrays.asList(Bukkit.getPluginManager().getPlugins());
     }
 
     public static void listPlugins(CommandSender sender) {
@@ -218,5 +221,45 @@ public class EXPluginManager {
         for (Plugin plugin : plugins) {
             reload(sender,plugin);
         }
+    }
+
+    private static void collectPlugin() {
+        if (Bukkit.getPluginManager().getPlugins().length != pluginMap.keySet().size() - 1) {
+            pluginMap.clear();
+            Plugin[] var0 = Bukkit.getPluginManager().getPlugins();
+            int var1 = var0.length;
+
+            for(int var2 = 0; var2 < var1; ++var2) {
+                Plugin plugin = var0[var2];
+                pluginMap.put(plugin.getClass().getClassLoader(), plugin);
+            }
+
+            pluginMap.remove(EXPluginManager.class.getClassLoader());
+        }
+
+    }
+
+    public static Plugin getOperatePlugin() {
+        return getOperatePlugin((new Exception()).getStackTrace());
+    }
+
+    public static Plugin getOperatePlugin(StackTraceElement[] stacktrace) {
+        collectPlugin();
+        StackTraceElement[] var1 = stacktrace;
+        int var2 = stacktrace.length;
+
+        for(int var3 = 0; var3 < var2; ++var3) {
+            StackTraceElement element = var1[var3];
+
+            try {
+                ClassLoader loader = Class.forName(element.getClassName(), false, EXPluginManager.class.getClassLoader()).getClassLoader();
+                if (pluginMap.containsKey(loader)) {
+                    return (Plugin)pluginMap.get(loader);
+                }
+            } catch (ClassNotFoundException var6) {
+            }
+        }
+
+        return null;
     }
 }

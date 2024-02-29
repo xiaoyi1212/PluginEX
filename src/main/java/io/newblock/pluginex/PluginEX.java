@@ -1,14 +1,21 @@
 package io.newblock.pluginex;
 
 import io.newblock.pluginex.command.EXCommandHandler;
+import io.newblock.pluginex.gui.GuiListener;
+import io.newblock.pluginex.network.NetworkManager;
 import io.newblock.pluginex.util.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.util.List;
 
 public final class PluginEX extends JavaPlugin {
 
     File langFile;
+    List<String> white_list_uri,dark_list_uri;
+    NetworkManager networkManager;
+    GuiListener guiListener;
+    boolean isWhite;
     static PluginEX instance;
 
     @Override
@@ -26,15 +33,32 @@ public final class PluginEX extends JavaPlugin {
         EXCommandHandler handler = new EXCommandHandler(this);
         getCommand("pluginex").setExecutor(handler);
         getCommand("pluginex").setTabCompleter(handler);
-        if(true){
-            int a =1;
+        this.networkManager = new NetworkManager(this);
+        this.guiListener = new GuiListener(this);
+        this.white_list_uri = getConfig().getStringList("network.white_list");
+        this.dark_list_uri = getConfig().getStringList("network.dark_list");
+        this.isWhite = getConfig().getString("network.which","white_list").equals("white_list");
+        if(getConfig().getBoolean("network.enable",true)){
+            this.networkManager.launch();
         }
-        int a = 1;
     }
 
     @Override
     public void onDisable() {
+        this.networkManager.disable();
         saveConfig();
+    }
+
+    public boolean isWhite() {
+        return isWhite;
+    }
+
+    public List<String> getDarkList() {
+        return dark_list_uri;
+    }
+
+    public List<String> getWhiteList() {
+        return white_list_uri;
     }
 
     public static PluginEX getInstance() {

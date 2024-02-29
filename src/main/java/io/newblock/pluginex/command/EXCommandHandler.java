@@ -1,12 +1,18 @@
 package io.newblock.pluginex.command;
 
 import io.newblock.pluginex.PluginEX;
+import io.newblock.pluginex.util.EXPluginManager;
 import io.newblock.pluginex.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class EXCommandHandler implements TabExecutor {
@@ -17,6 +23,7 @@ public class EXCommandHandler implements TabExecutor {
     DisableModel disable;
     ReloadModel reload;
     InfoModel info;
+    GuiModel gui;
 
     public EXCommandHandler(PluginEX instance){
         this.instance = instance;
@@ -26,6 +33,7 @@ public class EXCommandHandler implements TabExecutor {
         this.disable = new DisableModel(this);
         this.reload = new ReloadModel(this);
         this.info = new InfoModel(this);
+        this.gui = new GuiModel(this);
     }
 
     @Override
@@ -42,6 +50,9 @@ public class EXCommandHandler implements TabExecutor {
                     return true;
                 case "list":
                     this.list.onCommand(sender);
+                    return true;
+                case "gui":
+                    this.gui.onCommand(sender);
                     return true;
                 case "load":
                     if(args.length < 2){
@@ -87,6 +98,36 @@ public class EXCommandHandler implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
+        if(sender.hasPermission("pluginex.admin.command")){
+            if(args.length == 0) {
+                List<String> ret = new ArrayList<>(Arrays.asList("help", "load", "reload", "info", "disable", "list"));
+                if (sender.hasPermission("pluginex.admin.gui")) ret.add("gui");
+                return ret;
+            }
+
+            switch (args[0]){
+                case "disable":
+                case "reload":
+                case "info":
+                    List<String> ret = new ArrayList<>();
+                    for(Plugin plugin : EXPluginManager.getAllPlugins()){
+                        if(plugin.isEnabled()){
+                            ret.add(plugin.getName());
+                        }
+                    }
+                    return ret;
+                case "load":
+                    File pluginDir = new File("plugins");
+                    List<String> files = new ArrayList<>(),names = new ArrayList<>();
+                    if (!pluginDir.isDirectory()) {
+                        return Collections.emptyList();
+                    }
+                    for(Plugin plugin:EXPluginManager.getAllPlugins()) {
+                        plugin.getPluginLoader();
+                    }
+                    return files;
+            }
+        }
         return null;
     }
 }

@@ -20,6 +20,7 @@ public class HelpModel {
                     ChatColor.GOLD+"/pluginex disable <plugin|all> "+ChatColor.GRAY+ Util.format("command.help.disable"),
                     ChatColor.GOLD+"/pluginex reload <plugin|all> "+ChatColor.GRAY+ Util.format("command.help.reloadall"),
                     ChatColor.GOLD+"/pluginex info <plugin> [simple] "+ChatColor.GRAY+ Util.format("command.help.info"),
+                    ChatColor.GOLD+"/pluginex gui "+ChatColor.GRAY+ Util.format("command.help.gui"),
             });
         }else {
             sender.sendMessage(new String[]{
@@ -28,6 +29,7 @@ public class HelpModel {
                     ChatColor.GOLD+"/pluginex disable <plugin|all> "+ChatColor.GRAY+ Util.format("command.help.disable"),
                     ChatColor.GOLD+"/pluginex reload <plugin|all> "+ChatColor.GRAY+ Util.format("command.help.reloadall"),
                     ChatColor.GOLD+"/pluginex info <plugin> "+ChatColor.GRAY+ Util.format("command.help.info"),
+                    ChatColor.GOLD+"/pluginex gui "+ChatColor.GRAY+ Util.format("command.help.gui"),
             });
         }
     }

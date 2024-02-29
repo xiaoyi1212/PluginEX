@@ -1,3 +1,9 @@
 lang: 'zh-CN.lang'
-script:
-  engine: 'OpenEX'
+network:
+  enable: true
+  which: 'white_list' # white_list | dark_list
+  white_list:
+    - 'https://www.spigotmc.org'
+  dark_list:
+    - 'https://www.example.com/'
+disable: []
