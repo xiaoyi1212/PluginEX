@@ -11,6 +11,8 @@
 
 ## 适用于
 
+> Minecraft 1.8.X - 1.20.4
+
 * SpigotMC
 * CraftBukkit
 * PaperMC
@@ -55,3 +57,4 @@
 * `pluginex.admin.*` 所有管理员权限
 * `pluginex.admin.command` 命令使用权限
 * `pluginex.admin.update` 插件更新权限
+* `pluginex.admin.gui` GUI显示权限

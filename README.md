@@ -11,6 +11,8 @@ Plugin manager for SpigotMC
 
 ## Server
 
+> Minecraft 1.8.X - 1.20.4
+
 * SpigotMC
 * CraftBukkit
 * PaperMC
@@ -55,3 +57,4 @@ Plugin manager for SpigotMC
 * `pluginex.admin.*` All administrator permissions
 * `pluginex.admin.command` Use command permission
 * `pluginex.admin.update` Update plugin permission.
+* `pluginex.admin.gui` Show gui permission.
