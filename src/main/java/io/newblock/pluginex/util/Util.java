@@ -3,6 +3,7 @@ package io.newblock.pluginex.util;
 import io.newblock.pluginex.PluginEX;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -49,5 +50,15 @@ public class Util {
     public static String format(String format){
         String msg = lang.get(format);
         return msg == null ? format : msg;
+    }
+
+    public static Field getClassField(Object object,String name){
+        try {
+            Field field = object.getClass().getField(name);
+            field.setAccessible(true);
+            return field;
+        }catch (NoSuchFieldException e){
+            return null;
+        }
     }
 }

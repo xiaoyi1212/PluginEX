@@ -8,8 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -122,9 +124,20 @@ public class EXCommandHandler implements TabExecutor {
                     if (!pluginDir.isDirectory()) {
                         return Collections.emptyList();
                     }
-                    for(Plugin plugin:EXPluginManager.getAllPlugins()) {
-                        plugin.getPluginLoader();
+                    for(File file : pluginDir.listFiles()){
+                        if(!file.isDirectory())
+                            files.add(file.getName());
                     }
+                    for(Plugin plugin:EXPluginManager.getAllPlugins()) {
+                        try {
+                            Field file_f = Util.getClassField((JavaPlugin) plugin, "file");
+                            if (file_f == null) continue;
+                            File file = (File) file_f.get(plugin);
+                            if(file != null) names.add(file.getName());
+                        }catch (Exception ignored){
+                        }
+                    }
+                    files.removeAll(names);
                     return files;
             }
         }
