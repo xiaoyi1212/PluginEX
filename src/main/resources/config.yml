@@ -1,4 +1,4 @@
-lang: 'zh-CN.lang'
+lang: 'en-US.lang'
 network:
   enable: true
   which: 'white_list' # white_list | dark_list

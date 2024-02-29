@@ -66,7 +66,7 @@ public class EXPluginManager {
                 return;
             } catch (InvalidPluginException var10) {
                 var10.printStackTrace();
-                sender.sendMessage(ChatColor.RED + Util.format("plugin.illegal.danger"));
+                sender.sendMessage(ChatColor.RED + Util.format("plugin.illegal.failed"));
                 return;
             }
 

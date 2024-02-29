@@ -4,6 +4,7 @@ import io.newblock.pluginex.PluginEX;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -36,9 +37,10 @@ public class Util {
     }
 
     public static void loadLangInfo(File file, PluginEX instance){
-        try(BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))){
+        try(BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))){
             Properties properties = new Properties();
             properties.load(in);
+
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                 lang.put((String) entry.getKey(), (String) entry.getValue());
             }

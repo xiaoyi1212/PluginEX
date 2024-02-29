@@ -23,7 +23,7 @@ public final class PluginEX extends JavaPlugin {
         saveDefaultConfig();
         PluginEX.instance = this;
         if(!getDataFolder().exists()) getDataFolder().mkdir();
-        this.langFile = new File(getDataFolder(),getConfig().getString("lang","zh-CN.lang"));
+        this.langFile = new File(getDataFolder(),getConfig().getString("lang","en-US.lang"));
         Util.createLangFile(this.langFile,this);
         Util.loadLangInfo(langFile,this);
     }
